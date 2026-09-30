@@ -1,0 +1,70 @@
+/* ==========================================================
+   extra.css: color, escena "flujo", barra de progreso y efectos.
+   Se carga DESPUÉS de style.css para poder ajustar sus estilos.
+   ========================================================== */
+
+/* --acc es el color de acento actual. extra.js lo cambia según la sección */
+:root{--acc:#2f5bff}
+
+/* Barra de progreso de lectura (arriba de todo) */
+.progress{position:fixed;top:0;left:0;width:100%;height:4px;z-index:60;background:var(--acc);
+  transform:scaleX(0);transform-origin:0 50%;transition:background .5s}
+
+/* Elementos que ahora usan el color de acento */
+.pill.blue{background:var(--acc);transition:background .5s,transform .2s}
+.plan div{border-top-color:var(--acc);transition:border-color .5s}
+.chip:hover{background:var(--acc);border-color:var(--acc);color:#fff}
+.tabs [aria-selected=true]{background:var(--acc);border-color:var(--acc);color:#fff}
+.links a.active{color:var(--acc)}
+summary:hover{color:var(--acc)}
+:focus-visible{outline-color:var(--acc)}
+.hero-copy em{color:var(--acc)}
+
+/* Palabras gigantes del inicio con degradado de colores */
+.marquee{background:linear-gradient(90deg,#2f5bff,#8b5cf6,#ff5c7a,#f59e0b);
+  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+
+/* Cada cifra con su color */
+.nums div:nth-child(1) b{color:#a78bfa}
+.nums div:nth-child(2) b{color:#22d3ee}
+.nums div:nth-child(3) b{color:#ff5c7a}
+.nums div:nth-child(4) b{color:#fbbf24}
+
+/* Secciones oscuras: luces de color de fondo (clip no rompe el "sticky") */
+.blk.dark{position:relative;overflow:clip}
+.blk.dark::before{content:'';position:absolute;inset:-20%;pointer-events:none;
+  background:
+   radial-gradient(40% 40% at 12% 15%,color-mix(in srgb,var(--acc) 35%,transparent),transparent),
+   radial-gradient(35% 35% at 88% 85%,rgba(139,92,246,.25),transparent)}
+.blk>.wrap{position:relative}
+
+/* Tarjetas que se inclinan con el mouse (extra.js aplica el transform) */
+.plan div,.cols div,.nums div,.tel{transition:transform .2s ease-out;will-change:transform}
+
+/* ---------- Escena "El viaje de un mensaje" ---------- */
+.flow{height:420vh;position:relative;background:#0b0c0f;color:#eef1f6}
+.flow-stage{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;justify-content:center;
+  gap:2.5rem;padding:0 max(1.5rem,6vw);overflow:clip;
+  background:radial-gradient(55% 60% at 50% 115%,color-mix(in srgb,var(--acc) 45%,transparent),transparent)}
+.flow-stage h2{font-size:clamp(2.2rem,6vw,5rem)}
+.flow-bar{height:6px;border-radius:9px;background:rgba(255,255,255,.14)}
+.flow-bar i{display:block;height:100%;width:0;border-radius:inherit;background:var(--acc);box-shadow:0 0 24px var(--acc)}
+.flow-steps{list-style:none;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:1.2rem}
+.flow-steps li{opacity:.28;transform:translateY(10px);transition:opacity .4s,transform .4s}
+.flow-steps li.done{opacity:.6;transform:none}
+.flow-steps li.on{opacity:1;transform:none}
+.flow-steps b{display:grid;place-items:center;width:2.6rem;height:2.6rem;border-radius:50%;
+  background:var(--c);color:#fff;margin-bottom:.8rem}
+.flow-steps p{color:#9aa4b5;font-size:.95rem;margin-top:.4rem}
+@media(max-width:820px){
+  .flow-steps{grid-template-columns:1fr;gap:.7rem}
+  .flow-steps li:not(.on) p{display:none}
+  .flow-steps b{display:inline-grid;margin:0 .6rem 0 0}
+  .flow-steps h3{display:inline}
+}
+@media(prefers-reduced-motion:reduce){
+  .flow{height:auto}
+  .flow-stage{position:static;height:auto;padding:5rem 6vw}
+  .flow-steps li{opacity:1;transform:none}
+  .flow-steps li:not(.on) p{display:block}
+}
